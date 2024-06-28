@@ -1,6 +1,11 @@
 package org.yearup.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.ProductDao;
 import org.yearup.data.ShoppingCartDao;
@@ -12,6 +17,11 @@ import java.security.Principal;
 
 // convert this class to a REST controller
 // only logged in users should have access to these actions
+// mark the class for http requests and register the path the function will respond to(rest and mapping)
+@RestController
+@RequestMapping("/cart")
+@CrossOrigin
+@PreAuthorize("permitAll()")
 public class ShoppingCartController
 {
     // a shopping cart requires
@@ -22,6 +32,7 @@ public class ShoppingCartController
 
 
     // each method in this controller requires a Principal object as a parameter
+    @GetMapping("")
     public ShoppingCart getCart(Principal principal)
     {
         try
