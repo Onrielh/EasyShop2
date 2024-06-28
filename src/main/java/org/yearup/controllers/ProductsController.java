@@ -21,16 +21,16 @@ public class ProductsController
     @Autowired
     public ProductsController(ProductDao productDao)
     {
+
         this.productDao = productDao;
     }
-
+//setting required to false so all filters dont have to be toggles in order for the search to work
     @GetMapping("")
     @PreAuthorize("permitAll()")
     public List<Product> search(@RequestParam(name="cat", required = false) Integer categoryId,
                                 @RequestParam(name="minPrice", required = false) BigDecimal minPrice,
                                 @RequestParam(name="maxPrice", required = false) BigDecimal maxPrice,
-                                @RequestParam(name="color", required = false) String color
-                                )
+                                @RequestParam(name="color", required = false) String color)
     {
         try
         {
@@ -82,6 +82,7 @@ public class ProductsController
     {
         try
         {
+            // changed update to create so it doesnt make a new item everytime admin updates information
             productDao.update(id,product);
         }
         catch(Exception ex)
