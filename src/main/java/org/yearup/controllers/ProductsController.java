@@ -74,14 +74,15 @@ public class ProductsController
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Oops... our bad.");
         }
     }
-
+// only users with admin role can update products
+    // product duplication elimination
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void updateProduct(@PathVariable int id, @RequestBody Product product)
     {
         try
         {
-            productDao.create(product);
+            productDao.update(id,product);
         }
         catch(Exception ex)
         {
