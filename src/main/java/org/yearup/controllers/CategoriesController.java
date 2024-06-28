@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.yearup.data.CategoryDao;
 import org.yearup.data.ProductDao;
 import org.yearup.data.mysql.MySqlCategoryDao;
@@ -47,10 +48,15 @@ public class CategoriesController
     }
 
     // add the appropriate annotation for a get action
+    //@ResponseStatus(value = HttpStatus.OK)
+    // uses a if statement for response so deletion is no longer able to be found after being deleted
+    // fixed postman bug
+
     @GetMapping("/{id}")
-    @ResponseStatus(value = HttpStatus.OK)
-    public Category getById(@PathVariable int id)
-    {
+    public Category getById(@PathVariable int id){
+        Category category = categoryDao.getById(id);
+        if (category == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         // get the category by id
         return categoryDao.getById(id);
     }
